@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-movies-deployment
+  labels:
+    app: lektion11-search-movies
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lektion11-search-movies
+  template:
+    metadata:
+      labels:
+        app: lektion11-search-movies
+    spec:
+      containers:
+        - name: lektion11-search-movies
+          image: docker.io/library/lektion11-search-movies:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+        - name: lektion11-postgres
+          image: postgres
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
